@@ -50,5 +50,48 @@ const register=async(req,res)=>{
     
 }
 
+const login=async(req,res)=>{
+    const{username,email,password}=req.body
 
-module.exports=register
+    const existingUser=await usermodel.findOne({
+        $or:[
+            {username:username},
+            {email:email}
+        ]
+    })
+    
+
+    if(!existingUser){
+        return res.status(401).json({
+            message:"invalid email or password"
+        }
+            )
+
+    }
+    const hashedpassword=crypto.createHash("sha256").update(password).digest("hex")
+
+    if(hashedpassword!=existingUser.password){
+        return res.status(401).json({
+            messsage:"password is incorrect"
+        })
+    }
+
+    const token=jwt.sign(
+        {id:existingUser._id},
+        process.env.JWT_SECRET,
+        {expiresIn: "1d"}
+    )
+
+    res.cookie("token",token)
+
+    res.status(200).json({
+        message:"user login sucessfully",
+        data:{
+            username:username,
+            email:email,
+        }
+    })
+
+}
+
+module.exports={register,login}
