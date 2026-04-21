@@ -24,7 +24,15 @@ const post=async(req,res)=>{
             message:"no valid token ! unauthorized access"
         })
     }
-    const decoded=jwt.verify(token,process.env.JWT_SECRET)
+    let decoded=null
+    try{
+         decoded=jwt.verify(token,process.env.JWT_SECRET)
+    }catch(e){
+        return res.status(401).json({
+            message:"Token Invalid"
+        })
+    }
+    
 
     const file= await client.files.upload({
         file:await toFile(req.file.buffer, "file"),
