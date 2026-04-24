@@ -1,6 +1,6 @@
 const express=require("express")
 const multer  = require('multer')
-const {postController,getPostsController,getPostDetailsController} = require("../controllers/post.controllers")
+const {postController,getPostsController,getPostDetailsController,postLikeController} = require("../controllers/post.controllers")
 const identifyingUser=require("../middlewares/auth.midleware")
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
@@ -22,6 +22,12 @@ postRoutes.get("/",identifyingUser,getPostsController)
 //Get /api/posts/details/:postid
 
 postRoutes.get("/details/:id",identifyingUser,getPostDetailsController)
+
+
+//post- /api/posts/like/:postId
+//description: this api api for like a post
+
+postRoutes.post("/like/:postId",identifyingUser,postLikeController)
 
 
 
