@@ -56,7 +56,7 @@ const getPostsController=async(req,res)=>{
   
     
 
-   const userId=req.user
+   const userId=req.user.id
 
    const posts=await postmodel.find({
     user:userId
@@ -72,7 +72,7 @@ const getPostsController=async(req,res)=>{
 
 const getPostDetailsController=async(req,res)=>{
 
-    const userId=req.user
+    const userId=req.user.id
 
     const postId=req.params.id
 

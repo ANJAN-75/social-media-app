@@ -17,7 +17,7 @@ const identifyingUser=(req,res,next)=>{
             message:"Token Invalid"
         })
     }
-    req.user=decoded.id
+    req.user=decoded
 
     next()
 }
