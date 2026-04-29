@@ -1,11 +1,13 @@
-import React from 'react'
-import "./style.scss"
-import Approute from './Approute'
+import React from "react";
+import "./style.scss";
+import Approute from "./Approute";
+import { AuthProvider } from "./features/auth/auth.contex";
 const App = () => {
   return (
-    <Approute/>
-  )
-}
+    <AuthProvider>
+      <Approute />
+    </AuthProvider>
+  );
+};
 
-export default App
-
+export default App;
