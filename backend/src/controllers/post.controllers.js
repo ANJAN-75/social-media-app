@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 const ImageKit = require("@imagekit/nodejs");
 
 const { toFile } = require("@imagekit/nodejs");
+const { post } = require("../routes/posts.routes");
+const { promises } = require("dns");
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -115,9 +117,27 @@ const postLikeController = async (req, res) => {
   });
 };
 
+const getfeedController=async(req,res)=>{
+  const user=req.user
+  const posts=await Promise.all((await postmodel.find({}).populate("user").lean())
+  .map(async(post)=>{
+    const isLiked=await likemodel.findOne({
+      user:user.username,
+      post:post._id
+    })
+    post.isLiked=Boolean(isLiked)
+    return post
+  })
+)
+res.status(200).json({
+  posts
+})
+}
+
 module.exports = {
   postController,
   getPostsController,
   getPostDetailsController,
   postLikeController,
+  getfeedController
 };

@@ -11,7 +11,7 @@ const postSchema=new mongoose.Schema({
         required:[true,"without image post not created"]
     },
     user:{
-        ref:"users",
+        ref:"user",
         type:mongoose.Schema.Types.ObjectId,
         required:[true,"user id is required for creating an post"]
     }
